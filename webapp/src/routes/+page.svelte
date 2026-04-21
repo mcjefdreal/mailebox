@@ -1,5 +1,6 @@
 <script>
     import logo from '$lib/assets/mlb_logo.png';
+    import { resolve } from '$app/paths';
 </script>
 
 <div class="from-mlb-blue/20 to-mlb-orange/20 flex h-screen flex-col items-center justify-center bg-linear-to-t">
