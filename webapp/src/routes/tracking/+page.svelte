@@ -48,9 +48,10 @@
 			console.log(result)
 			const authStatus = result.response.authStatus
 
-			if (authStatus) {
-				otpStatus = "Unlocked"
-			} else {
+		if (authStatus) {
+			otpStatus = "Unlocked"
+			await client.action(api.mqtt.publishCommand, { command: 'open' });
+		} else {
 				otpStatus = "OTP Invalid"
 			}
 
