@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as mqtt from "../mqtt.js";
 import type * as scanner from "../scanner.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  mqtt: typeof mqtt;
   scanner: typeof scanner;
 }>;
 

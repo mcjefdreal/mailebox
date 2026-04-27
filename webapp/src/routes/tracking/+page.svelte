@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
 	import logo from '$lib/assets/mlb_logo.png';
 	import Modal from '$lib/components/modal.svelte';
 	import StatusBar from '$lib/components/status_bar.svelte';
 	import StatusDetails from '$lib/components/status_details.svelte';
+	import { useConvexClient } from "convex-svelte";
+	import { api } from "$convex/api";
 
 	let {
 		tracking_num = 'RR123456785PH',
@@ -27,6 +29,36 @@
 		// If not delete, move on to next field
 		if (val != "") {
 			document.getElementById(new_id)?.focus();
+		}
+	}
+
+	// Initialize the action hook
+	const client = useConvexClient();
+
+	let otpStatus = "";
+	let isLoading = $state(false);
+
+	async function handleButtonClick() {
+		isLoading = true;
+		status = "Authenticating via Python...";
+
+		try {
+			// Manually sending a dummy QR string for testing the button
+			const result = await client.action(api.scanner.processQrCode, {});;
+			console.log(result)
+			const authStatus = result.response.authStatus
+
+			if (authStatus) {
+				otpStatus = "Unlocked"
+			} else {
+				otpStatus = "OTP Invalid"
+			}
+
+		} catch (err) {
+			console.error(err);
+			status = "Error: Could not reach the backend.";
+		} finally {
+			isLoading = false;
 		}
 	}
 </script>
@@ -99,9 +131,12 @@
 
 			<button
 				class="bg-mlb-orange text-mlb-white m-3 rounded-2xl px-7 py-3 text-l font-medium drop-shadow-sm hover:brightness-90"
+				onclick={handleButtonClick}
+				disabled={isLoading}
 			>
-				Unlock
+				{isLoading ? "Processing..." : "Unlock"}
 			</button>
+			<p>{otpStatus}</p>
 		</div>
 		{/snippet}
 
