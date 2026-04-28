@@ -41,6 +41,6 @@
 </div>
 
 <!-- Collapse Button -->
-<button class="p-2 rounded-full z-100 absolute bottom-5 {active ? 'left-85' : 'left-5'} bg-mlb-orange/90 shadow-md hover:brightness-90" onclick={toggleNavBar}>
+<button class="p-2 rounded-full z-5 absolute bottom-5 {active ? 'left-85' : 'left-5'} bg-mlb-orange/90 shadow-md hover:brightness-90" onclick={toggleNavBar}>
     <img src={menu} alt="Collapse or Open Navbar" class="max-w-7">
 </button>
