@@ -48,9 +48,10 @@
 			console.log(result)
 			const authStatus = result.response.authStatus
 
-			if (authStatus) {
-				otpStatus = "Unlocked"
-			} else {
+		if (authStatus) {
+			otpStatus = "Unlocked"
+			await client.action(api.mqtt.publishCommand, { command: 'open' });
+		} else {
 				otpStatus = "OTP Invalid"
 			}
 
@@ -133,7 +134,7 @@
 					oninput={autoFocus}
 				/>
 			{/each}
-			</div>
+		</div>
 
 			<button
 				class="bg-mlb-orange text-mlb-white m-3 rounded-2xl px-7 py-3 text-l font-medium drop-shadow-sm hover:brightness-90"
