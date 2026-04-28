@@ -14,6 +14,9 @@ importers:
       '@mmailaender/convex-better-auth-svelte':
         specifier: ^0.7.3
         version: 0.7.3(d239d5edd209df8f5f1884b396aeb81c)
+      '@mmailaender/convex-svelte':
+        specifier: ^0.18.0
+        version: 0.18.0(@sveltejs/kit@2.57.1(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.3(@typescript-eslint/types@8.58.1))(vite@7.3.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)))(svelte@5.55.3(@typescript-eslint/types@8.58.1))(typescript@5.9.3)(vite@7.3.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)))(convex@1.36.1(react@19.2.5))(svelte@5.55.3(@typescript-eslint/types@8.58.1))(zod@4.3.6)
       better-auth:
         specifier: 1.6.9
         version: 1.6.9(@sveltejs/kit@2.57.1(@sveltejs/vite-plugin-svelte@6.2.4(svelte@5.55.3(@typescript-eslint/types@8.58.1))(vite@7.3.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)))(svelte@5.55.3(@typescript-eslint/types@8.58.1))(typescript@5.9.3)(vite@7.3.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)))(react@19.2.5)(svelte@5.55.3(@typescript-eslint/types@8.58.1))
