@@ -10,7 +10,7 @@
     import TableRow from '$lib/components/table_row.svelte';
 
 	import { useQuery } from 'convex-svelte';
-	import { api } from '$convex/api.js';
+	import { api } from '$convex/_generated/api.js';
   	const mailboxes = useQuery(api.mailboxes.getMailboxes, {});
 
 	let searchValue = $state('');
