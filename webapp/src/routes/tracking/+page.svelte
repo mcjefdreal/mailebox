@@ -55,6 +55,11 @@
 		fetchScan();
 	});
 
+	function isScanExpired(scan) {
+		const threeMinutes = 3 * 60 * 1000;
+		return Date.now() - (scan.scanned_at * 1000) > threeMinutes;
+	}
+
 	async function handleButtonClick() {
 		isLoading = true;
 		otpStatus = "";
@@ -62,6 +67,13 @@
 
 		if(!currentScan) {
 			otpStatus = "Please scan first."
+			isLoading = false;
+			return;
+		}
+
+		if (isScanExpired(currentScan)) {
+			otpStatus = "Scan expired. Please scan again.";
+			currentScan = null; // clear it
 			isLoading = false;
 			return;
 		}
