@@ -50,30 +50,41 @@ async def receive_scan(request: Request):
 
 @app.get("/api/scan-data")
 async def get_scan_data():
-    if latest_scan is None:
-        return {"scan": None}
-    return {"scan": latest_scan}
+        global latest_scan
+        if latest_scan is None:
+                return {"scan": None}
+        if time.time() - latest_scan["scanned_at"] > 180:  # 3 minutes = 180 seconds
+                latest_scan = None
+                return {"scan": None}
+        return {"scan": latest_scan}
 
 @app.post("/api/otp")
 async def receive_otp(request: Request):
-        data = await request.body()
-        print(data)
-        uin = data["uin"]
-        otp = data["otp"]
-        transaction_id = data["transaction_id"]
+        raw_bytes = await request.body()
+        raw_string = raw_bytes.decode('utf-8')
+        try:
+                data = json.loads(raw_string)
+                print(f"Data: {data}")
+                uin = data["uin"]
+                otp = data["otp"]
+                transaction_id = data["transaction_id"]
 
-        response = authenticator.auth(
-                individual_id=uin,
-                individual_id_type="UIN",
-                otp_value=otp,
-                txn_id=transaction_id,
-                consent=True,
-        )
-        response_body = response.json()
-        print(f"RESPONSE: {response_body}")
-        authStatus = response_body["response"]["authStatus"]
+                response = authenticator.auth(
+                        individual_id=uin,
+                        individual_id_type="UIN",
+                        otp_value=otp,
+                        txn_id=transaction_id,
+                        consent=True,
+                )
+                response_body = response.json()
+                print(f"RESPONSE: {response_body}")
+                authStatus = response_body["response"]["authStatus"]
 
-        return authStatus
+                return authStatus
+
+        except json.JSONDecodeError:
+                print("Failed to parse JSON")
+                return JSONResponse(status_code=400, content={"error": "Invalid JSON payload"})
 
 def get_local_ip():
     """Quick helper to find this computer's local IP address"""
