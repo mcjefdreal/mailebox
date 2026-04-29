@@ -42,11 +42,17 @@ async def receive_scan(request: Request):
             "scanned_at": time.time(),
         }
 
-        return otp_response_body
+        return data["uin"], otp_response_body
 
     except json.JSONDecodeError:
         print("Failed to parse JSON")
         return JSONResponse(status_code=400, content={"error": "Invalid JSON payload"})
+
+@app.get("/api/scan-data")
+async def get_scan_data():
+    if latest_scan is None:
+        return {"scan": None}
+    return {"scan": latest_scan}
 
 @app.post("/api/otp")
 async def receive_otp(request: Request):
