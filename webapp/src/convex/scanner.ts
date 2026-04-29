@@ -21,25 +21,25 @@ export const syncScan = action({
     }
 
     // Upsert into Convex by UIN
-    const existing = await ctx.db
-      .query("scans")
-      .withIndex("by_uin", (q) => q.eq("uin", scan.uin))
-      .first();
+    // const existing = await ctx.db
+    //   .query("scans")
+    //   .withIndex("by_uin", (q) => q.eq("uin", scan.uin))
+    //   .first();
 
-    if (existing) {
-      await ctx.db.patch(existing._id, {
-        transaction_id: scan.transaction_id,
-        status: "pending",
-        scanned_at: scan.scanned_at,
-      });
-    } else {
-      await ctx.db.insert("scans", {
-        uin: scan.uin,
-        transaction_id: scan.transaction_id,
-        status: "pending",
-        scanned_at: scan.scanned_at,
-      });
-    }
+    // if (existing) {
+    //   await ctx.db.patch(existing._id, {
+    //     transaction_id: scan.transaction_id,
+    //     status: "pending",
+    //     scanned_at: scan.scanned_at,
+    //   });
+    // } else {
+    //   await ctx.db.insert("scans", {
+    //     uin: scan.uin,
+    //     transaction_id: scan.transaction_id,
+    //     status: "pending",
+    //     scanned_at: scan.scanned_at,
+    //   });
+    // }
 
     return { scan };
   },
@@ -47,7 +47,7 @@ export const syncScan = action({
 
 export const verifyOtp = action({
   handler: async (ctx, args) => {
-    const response = await fetch(`${PYTHON_URL}/api/input-otp`, {
+    const response = await fetch(`${PYTHON_URL}/api/otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
