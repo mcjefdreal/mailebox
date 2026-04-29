@@ -1,16 +1,12 @@
 // convex/scanner.ts
 import { action } from "./_generated/server.js";
 
-const pythonUrl = "http://0.0.0.0:8000/scan";
+const PYTHON_URL = "http://0.0.0.0:8000";
 
-export const processQrCode = action({
+export const syncScan = action({
   handler: async (ctx) => {
-    console.log("Processing QR Scan")
-    
-    const response = await fetch(pythonUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: ''
+    const response = await fetch(`${PYTHON_URL}/api/scan-data`, {
+      method: "GET",
     });
 
     if (!response.ok) {
@@ -18,22 +14,47 @@ export const processQrCode = action({
     }
 
     const data = await response.json();
+    const scan = data.scan;
 
-    return data
-  }
+    if (!scan) {
+      return { scan: null };
+    }
+
+    // Upsert into Convex by UIN
+    const existing = await ctx.db
+      .query("scans")
+      .withIndex("by_uin", (q) => q.eq("uin", scan.uin))
+      .first();
+
+    if (existing) {
+      await ctx.db.patch(existing._id, {
+        transaction_id: scan.transaction_id,
+        status: "pending",
+        scanned_at: scan.scanned_at,
+      });
+    } else {
+      await ctx.db.insert("scans", {
+        uin: scan.uin,
+        transaction_id: scan.transaction_id,
+        status: "pending",
+        scanned_at: scan.scanned_at,
+      });
+    }
+
+    return { scan };
+  },
 });
 
-export const processOTP = action({
+export const verifyOtp = action({
   handler: async (ctx, args) => {
-    console.log("Processing OTP")
-    
-    const response = await fetch(pythonUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          response: args.response,
-          otp: args.otp
-        })
+    const response = await fetch(`${PYTHON_URL}/api/input-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        uin: args.uin,
+        otp: args.otp,
+        transaction_id: args.transaction_id,
+      }),
     });
 
     if (!response.ok) {
@@ -41,6 +62,6 @@ export const processOTP = action({
     }
 
     const data = await response.json();
-    return data
-  }
+    return data;
+  },
 });

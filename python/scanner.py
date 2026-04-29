@@ -56,14 +56,14 @@ async def get_scan_data():
 
 @app.post("/api/otp")
 async def receive_otp(request: Request):
-        request_body = await request.body()
-        print(request_body)
-        data = request_body["response"]
-        otp = request_body["otp"]
-        transaction_id = data["transactionID"]
+        data = await request.body()
+        print(data)
+        uin = data["uin"]
+        otp = data["otp"]
+        transaction_id = data["transaction_id"]
 
         response = authenticator.auth(
-                individual_id=data["uin"],
+                individual_id=uin,
                 individual_id_type="UIN",
                 otp_value=otp,
                 txn_id=transaction_id,
