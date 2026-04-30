@@ -117,7 +117,7 @@
 	class="from-mlb-blue/20 to-mlb-orange/20 flex h-screen flex-col items-center justify-center bg-linear-to-t"
 >
 	<div
-		class="bg-mlb-white relative m-6 flex w-1/3 flex-col items-center justify-center rounded-xl p-5 drop-shadow-md"
+		class="bg-mlb-white relative m-6 flex w-80 md:w-1/3 flex-col items-center justify-center rounded-xl p-5 drop-shadow-md"
 	>
 		<img src={logo} alt="MaiLeBox logo" class="mt-4 max-w-50" />
 		<div class="mt-4 flex w-full flex-col p-3">
@@ -138,7 +138,7 @@
 			<div class="col-span-2 text-sm">{deadline} days</div>
 		</div>
 
-		<div class="w-4/5 py-2">
+		<div class="md:w-4/5 py-2">
 			<!-- <p class="italic"> status tba </p> -->
 			<StatusBar stat={status} />
 		</div>
@@ -166,18 +166,18 @@
 
 <!-- OTP Modal -->
 {#snippet modal_content()}
-	<div class="text-center">
+	<div class="flex flex-col text-center justify-center items-center place-content-center">
 		<h1 class="text-mlb-orange mb-4 text-4xl font-bold">Unlock Locker X</h1>
 
-		<div id="otp_code" class="my-10">
-			<h2 class="text-mlb-black my-4 text-xl font-bold">Enter OTP Code below:</h2>
+		<h2 class="text-mlb-black my-4 text-xl font-bold">Enter OTP Code below:</h2>
+		<div id="otp_code" class="my-4 flex shrink min-w-0 gap-x-2">
 			{#each otpCode, i (i)}
 				<input
 					id="otp_{i}"
 					type="text"
 					inputmode="numeric"
 					maxlength="1"
-					class="bg-mlb-gray mr-4 w-12 rounded-xl p-4 text-center font-bold"
+					class="bg-mlb-gray w-10 md:w-12 rounded-xl p-4 text-center font-bold"
 					bind:value={otpCode[i]}
 					oninput={autoFocus}
 				/>

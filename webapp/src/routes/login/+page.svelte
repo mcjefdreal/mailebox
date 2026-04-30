@@ -43,12 +43,12 @@
 	class="from-mlb-blue/20 to-mlb-orange/20 flex h-screen flex-col items-center justify-center bg-linear-to-t"
 >
 	<div
-		class="bg-mlb-white m-6 flex w-1/3 flex-col items-center justify-center rounded-xl p-5 drop-shadow-md"
+		class="bg-mlb-white m-6 flex w-80 md:w-1/3 flex-col items-center justify-center rounded-xl p-3 md:p-5 drop-shadow-md"
 	>
 		<img src={logo} alt="MaiLeBox logo" class="max-w-60 pt-5" />
 		<p class="pt-8 text-lg font-extrabold">Welcome!</p>
 
-		<form onsubmit={handlePasswordSubmit} class="flex w-full flex-col p-5">
+		<form onsubmit={handlePasswordSubmit} class="flex w-full flex-col p-1 md:p-5">
 			<label for="email" class="mb-1 text-left"> Email </label>
 			<input
 				type="email"

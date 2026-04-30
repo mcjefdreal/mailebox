@@ -18,14 +18,14 @@
 >
 	<div class="grid grid-cols-4 py-3">
 		<div
-			class="border-mlb-orange flex aspect-square w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
 			1
 				? 'opacity-100'
 				: 'opacity-50'}"
 		>
 			<img src={truck} alt="Truck Icon" class="size-3/4" />
 		</div>
-		<div class="col-span-3 {status >= 1 ? 'opacity-100' : 'opacity-50'}">
+		<div class="col-span-3 pl-2 md:pl-0 {status >= 1 ? 'opacity-100' : 'opacity-50'}">
 			<p class="font-medium">In Transit</p>
 			{#if status >= 1}
 				<p class="text-sm">timestamp</p>
@@ -40,14 +40,14 @@
 		<div class="col-span-3"></div>
 
 		<div
-			class="border-mlb-orange flex aspect-square w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
 			2
 				? 'opacity-100'
 				: 'opacity-50'}"
 		>
 			<img src={storage} alt="Storage Icon" class="size-3/4" />
 		</div>
-		<div class="col-span-3 {status >= 2 ? 'opacity-100' : 'opacity-50'}">
+		<div class="col-span-3 pl-2 md:pl-0 {status >= 2 ? 'opacity-100' : 'opacity-50'}">
 			<p class="font-medium">Sorting</p>
 			{#if status >= 2}
 				<p class="text-sm">timestamp</p>
@@ -62,14 +62,14 @@
 		<div class="col-span-3"></div>
 
 		<div
-			class="border-mlb-orange flex aspect-square w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
 			3
 				? 'opacity-100'
 				: 'opacity-50'}"
 		>
 			<img src={locker} alt="Locker Icon" class="size-3/4" />
 		</div>
-		<div class="col-span-3 {status >= 3 ? 'opacity-100' : 'opacity-50'}">
+		<div class="col-span-3 pl-2 md:pl-0 {status >= 3 ? 'opacity-100' : 'opacity-50'}">
 			<p class="font-medium">In Locker</p>
 			{#if status >= 3}
 				<p class="text-sm">timestamp</p>
@@ -84,14 +84,14 @@
 		<div class="col-span-3"></div>
 
 		<div
-			class="border-mlb-orange flex aspect-square w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
 			4
 				? 'opacity-100'
 				: 'opacity-50'}"
 		>
 			<img src={star} alt="Star Icon" class="size-3/4" />
 		</div>
-		<div class="col-span-3 {status >= 4 ? 'opacity-100' : 'opacity-50'}">
+		<div class="col-span-3 pl-2 md:pl-0 {status >= 4 ? 'opacity-100' : 'opacity-50'}">
 			<p class="font-medium">Claimed</p>
 			{#if status >= 4}
 				<p class="text-sm">timestamp</p>
@@ -99,5 +99,5 @@
 		</div>
 	</div>
 
-	<button onclick={onClose} class="hover:text-mlb-orange pt-5 underline"> Close </button>
+	<button onclick={onClose} class="hover:text-mlb-orange md:pt-5 underline"> Close </button>
 </div>
