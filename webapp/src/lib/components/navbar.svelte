@@ -48,7 +48,7 @@
 <!-- Collapse Button -->
 <button
 	class="absolute bottom-5 z-5 rounded-full p-2 {active
-		? 'left-85'
+		? 'left-82'
 		: 'left-5'} bg-mlb-orange/90 shadow-md hover:brightness-90"
 	onclick={toggleNavBar}
 >
