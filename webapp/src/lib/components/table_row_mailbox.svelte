@@ -11,27 +11,37 @@
     } = $props();
 
     // Calculation of Date Difference (for claiming)
-    var isClaimPeriodFinished, hrs, days;
+    var isClaimPeriodFinished, hrs, days, date_deli, date_claim, output_deli = $state(""), output_claim = $state("");
 
-    let delivery_date = new Date(Date.parse("1970-01-01T00:00:00Z"));
-    let claim_deadline = new Date(Date.now());
+    if (delivered_date != "N/A" && claim_by != "N/A") {
+        date_deli = new Date(parseInt(delivered_date));
+        date_claim = new Date(parseInt(claim_by));
 
-    hrs = Math.floor((claim_deadline - delivery_date)/3600000);
-    days = Math.floor(hrs/24);
+        hrs = Math.floor((date_claim - date_deli)/3600000);
+        days = Math.floor(hrs/24);
 
-    // Not yet past claiming deadline
-    if (hrs > 0) {
-        isClaimPeriodFinished = false;
+        // Not yet past claiming deadline
+        if (hrs > 0) {
+            isClaimPeriodFinished = false;
+        }
+
+        // Past claiming deadline already
+        else {
+            isClaimPeriodFinished = true;
+            days *= -1;
+            hrs *= -1;
+        }
+
+        output_deli = date_deli.toUTCString();
+        output_claim = date_claim.toUTCString();
     }
 
-    // Past claiming deadline already
     else {
-        isClaimPeriodFinished = true;
-        days *= -1;
-        hrs *= -1;
+        output_deli = delivered_date;
+        output_claim = claim_by;
     }
 
-    console.log(`Past Deadline? ${isClaimPeriodFinished}, days: ${days}, hours: ${hrs}`);
+    // console.log(`Past Deadline? ${isClaimPeriodFinished}, days: ${days}, hours: ${hrs}`);
 
     let isOverrideActive = $state(false);
 </script>
@@ -49,11 +59,11 @@
     </div>
 
     <div class="w-1/4 text-center content-center">
-        {delivered_date}
+        {output_deli}
     </div>
 
     <div class="w-1/4 text-center content-center">
-        {claim_by}
+        {output_claim}
     </div>
 
     <div class="w-1/8 text-sm text-center content-center">
@@ -70,13 +80,15 @@
 
         <div class="my-4 text-base bg-mlb-orange/10 p-4 rounded-lg">
             <!-- <div class="font-bold text-2xl mb-2">Note:</div> -->
-            {#if isClaimPeriodFinished}
+            {#if isClaimPeriodFinished && status == "Unavailable"}
                 <div>Parcel has been <span class="font-bold text-mlb-red underline">unclaimed</span> for</div>
                 <div class="font-bold text-xl my-2 text-mlb-red">{days.toString()} days, {hrs.toString()} hours</div>
-            {:else}
+            {:else if !isClaimPeriodFinished && status == "Unavailable"}
                 <div>Recipient <span class="font-semibold underline">{recipient_uid}</span> has</div>
                 <div class="font-bold my-2 text-xl text-mlb-orange">{days.toString()} days, {hrs.toString()} hours</div>
                 <div>to claim their parcel</div>
+            {:else}
+                <div>This locker <span class="font-bold">does not have a parcel</span> currently.<br>Continue with override?</div>
             {/if}
         </div>
 

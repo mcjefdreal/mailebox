@@ -7,7 +7,7 @@
 
 	import Modal from '$lib/components/modal.svelte';
 	import Navbar from '$lib/components/navbar.svelte';
-    import TableRow from '$lib/components/table_row.svelte';
+    import TableRow from '$lib/components/table_row_mailbox.svelte';
 
 	import { useQuery } from 'convex-svelte';
 	import { api } from '$convex/_generated/api.js';
@@ -98,7 +98,7 @@
 		<div class="mb-4 flex w-full flex-row pr-4">
 			<div class="w-1/8 content-center text-center text-lg font-bold">Locker Number</div>
 
-			<div class="w-1/4 content-center text-center text-lg font-bold">Recipient</div>
+			<div class="w-1/4 content-center text-center text-lg font-bold">Recipient ID</div>
 
 			<div class="w-1/4 content-center text-center text-lg font-bold">Delivered By</div>
 
@@ -117,9 +117,9 @@
 				{#each mailboxes.data as mailbox (mailbox.locker_number)} 
 				<TableRow 
 					locker_num={mailbox.locker_number.toString()} 
-					recipient_uid={mailbox.recipient_name} 
-					delivered_date={mailbox.delivered_by} 
-					claim_by={mailbox.claim_by} 
+					recipient_uid={mailbox.recipient_uid} 
+					delivered_date={mailbox.parcel_info ? mailbox.parcel_info.delivered_by : "N/A"} 
+					claim_by={mailbox.parcel_info ? mailbox.parcel_info.claim_by : "N/A"} 
 					status={mailbox.status}
 				/>
 				{/each}
