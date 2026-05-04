@@ -7,11 +7,11 @@
 
 	import Modal from '$lib/components/modal.svelte';
 	import Navbar from '$lib/components/navbar.svelte';
-	import TableRow from '$lib/components/table_row_mailbox.svelte';
+	import TableRow from '$lib/components/table_row_log.svelte';
 
 	import { useQuery } from 'convex-svelte';
 	import { api } from '$convex/_generated/api.js';
-	const mailboxes = useQuery(api.mailboxes.getMailboxes, {});
+	const parcels = useQuery(api.parcels.getParcels, {});
 
 	let searchValue = $state('');
 
@@ -57,7 +57,7 @@
 	<div class="z-0 flex flex-col py-12 pr-12 pl-16 {isNavbarActive ? 'w-4/5' : 'w-full'}">
 		<!-- Title & Utilities -->
 		<div class="text-mlb-black mb-2 flex h-1/10 flex-row pr-4">
-			<div class="w-3/5 place-content-center text-3xl font-bold">Mailboxes</div>
+			<div class="w-3/5 place-content-center text-3xl font-bold">Parcel Logs</div>
 
 			<div class="flex w-2/5">
 				<button class="flex w-1/10 place-content-center">
@@ -68,7 +68,7 @@
 					<img src={sort} class="max-w-8" alt="Sort" />
 				</button>
 
-				<button class="bg-mlb-gray/50 m-4 flex w-3/5 flex-row rounded-full px-4 py-2">
+				<button class="bg-mlb-gray/50 m-4 flex w-4/5 flex-row rounded-full px-4 py-2">
 					<img src={search} class="s-1/5 mr-2 flex" alt="Search" />
 					<input
 						type="text"
@@ -78,7 +78,7 @@
 					/>
 				</button>
 
-				<div class="flex w-1/4 place-content-center items-center">
+				<!-- <div class="flex w-1/4 place-content-center items-center">
 					<button
 						class="bg-mlb-orange/90 text-mlb-white flex place-content-center items-center rounded-3xl px-4 py-2 font-bold hover:brightness-90"
 						onclick={() => {
@@ -88,37 +88,38 @@
 						<img src={add} class="max-w-8" alt="Add" />
 						<img src={locker} class="max-w-8" alt="Mailbox" />
 					</button>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
 		<!-- Header for the Logs -->
 		<div class="mb-4 flex w-full flex-row pr-4">
-			<div class="w-1/8 content-center text-center text-lg font-bold">Locker Number</div>
+			<div class="w-1/4 content-center text-center text-lg font-bold">Parcel Tracking Number</div>
 
 			<div class="w-1/4 content-center text-center text-lg font-bold">Recipient ID</div>
 
-			<div class="w-1/4 content-center text-center text-lg font-bold">Delivered By</div>
+			<div class="w-1/4 content-center text-center text-lg font-bold">Most Recent Activity</div>
 
-			<div class="w-1/4 content-center text-center text-lg font-bold">Claim By</div>
-
-			<div class="w-1/8 content-center text-center text-lg font-bold">Status</div>
+			<div class="w-1/4 content-center text-center text-lg font-bold">Date of Activity</div>
 		</div>
 
 		<!-- Content (Actual Logs) -->
 		<div class="flex h-8/10 w-full flex-col overflow-auto pr-4">
-			{#if mailboxes.isLoading}
+			{#if parcels.isLoading}
 				<p>Loading...</p>
-			{:else if mailboxes.error}
-				<p>failed to load: {mailboxes.error.toString()}</p>
+			{:else if parcels.error}
+				<p>failed to load: {parcels.error.toString()}</p>
 			{:else}
-				{#each mailboxes.data as mailbox (mailbox.locker_number)}
+				{#each parcels.data as parcel (parcel.tracking_id)}
 					<TableRow
-						locker_num={mailbox.locker_number.toString()}
-						recipient_uid={mailbox.recipient_uid}
-						delivered_date={mailbox.parcel_info ? mailbox.parcel_info.delivered_by : 'N/A'}
-						claim_by={mailbox.parcel_info ? mailbox.parcel_info.claim_by : 'N/A'}
-						status={mailbox.status}
+						tracking_id={parcel.tracking_id}
+						recipient_uid={parcel.recipient_uid}
+						delivered_by={parcel.delivered_by}
+						in_locker_by={parcel.in_locker_by}
+						claim_by={parcel.claim_by}
+						claim_date={parcel.claim_date}
+						storage_date={parcel.storage_date}
+						status={parcel.status}
 					/>
 				{/each}
 			{/if}

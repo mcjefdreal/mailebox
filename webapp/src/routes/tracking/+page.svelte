@@ -3,9 +3,9 @@
 	import Modal from '$lib/components/modal.svelte';
 	import StatusBar from '$lib/components/status_bar.svelte';
 	import StatusDetails from '$lib/components/status_details.svelte';
-	import { useConvexClient } from "convex-svelte";
-	import { api } from "$convex/_generated/api";
-	import { onMount } from "svelte";
+	import { useConvexClient } from 'convex-svelte';
+	import { api } from '$convex/_generated/api.js';
+	import { onMount } from 'svelte';
 
 	let {
 		tracking_num = 'RR123456785PH',
@@ -36,9 +36,9 @@
 	// Initialize the action hook
 	const client = useConvexClient();
 
-	let otpStatus = $state("");
+	let otpStatus = $state('');
 	let isLoading = $state(false);
-	let currentScan =$state(null);
+	let currentScan = $state(null);
 
 	async function fetchScan() {
 		try {
@@ -47,7 +47,7 @@
 				currentScan = result.scan;
 			}
 		} catch (err) {
-			console.error("Failed to sync scan:", err);
+			console.error('Failed to sync scan:', err);
 		}
 	}
 
@@ -57,22 +57,22 @@
 
 	function isScanExpired(scan) {
 		const threeMinutes = 3 * 60 * 1000;
-		return Date.now() - (scan.scanned_at * 1000) > threeMinutes;
+		return Date.now() - scan.scanned_at * 1000 > threeMinutes;
 	}
 
 	async function handleButtonClick() {
 		isLoading = true;
-		otpStatus = "";
-		status = "Authenticating via Python...";
+		otpStatus = '';
+		status = 'Authenticating via Python...';
 
-		if(!currentScan) {
-			otpStatus = "Please scan first."
+		if (!currentScan) {
+			otpStatus = 'Please scan first.';
 			isLoading = false;
 			return;
 		}
 
 		if (isScanExpired(currentScan)) {
-			otpStatus = "Scan expired. Please scan again.";
+			otpStatus = 'Scan expired. Please scan again.';
 			currentScan = null; // clear it
 			isLoading = false;
 			return;
@@ -80,7 +80,7 @@
 
 		const otp = otpCode.join('');
 		if (otp.length !== 6) {
-			otpStatus = "Please enter a 6-digit OTP.";
+			otpStatus = 'Please enter a 6-digit OTP.';
 			isLoading = false;
 			return;
 		}
@@ -93,19 +93,18 @@
 				transaction_id: currentScan.transaction_id
 			});
 
-			console.log(result)
-			const authStatus = result
+			console.log(result);
+			const authStatus = result;
 
-		if (authStatus) {
-			otpStatus = "Unlocked"
-			await client.action(api.mqtt.publishCommand, { command: 'open' });
-		} else {
-				otpStatus = "OTP Invalid"
+			if (authStatus) {
+				otpStatus = 'Unlocked';
+				await client.action(api.mqtt.publishCommand, { command: 'open' });
+			} else {
+				otpStatus = 'OTP Invalid';
 			}
-
 		} catch (err) {
 			console.error(err);
-			status = "Error: Could not reach the backend.";
+			status = 'Error: Could not reach the backend.';
 		} finally {
 			isLoading = false;
 		}
@@ -117,7 +116,7 @@
 	class="from-mlb-blue/20 to-mlb-orange/20 flex h-screen flex-col items-center justify-center bg-linear-to-t"
 >
 	<div
-		class="bg-mlb-white relative m-6 flex w-1/3 flex-col items-center justify-center rounded-xl p-5 drop-shadow-md"
+		class="bg-mlb-white relative m-6 flex w-80 flex-col items-center justify-center rounded-xl p-5 drop-shadow-md md:w-1/3"
 	>
 		<img src={logo} alt="MaiLeBox logo" class="mt-4 max-w-50" />
 		<div class="mt-4 flex w-full flex-col p-3">
@@ -138,7 +137,7 @@
 			<div class="col-span-2 text-sm">{deadline} days</div>
 		</div>
 
-		<div class="w-4/5 py-2">
+		<div class="py-2 md:w-4/5">
 			<!-- <p class="italic"> status tba </p> -->
 			<StatusBar stat={status} />
 		</div>
@@ -166,32 +165,32 @@
 
 <!-- OTP Modal -->
 {#snippet modal_content()}
-	<div class="text-center">
+	<div class="flex flex-col place-content-center items-center justify-center text-center">
 		<h1 class="text-mlb-orange mb-4 text-4xl font-bold">Unlock Locker X</h1>
 
-		<div id="otp_code" class="my-10">
-			<h2 class="text-mlb-black my-4 text-xl font-bold">Enter OTP Code below:</h2>
+		<h2 class="text-mlb-black my-4 text-xl font-bold">Enter OTP Code below:</h2>
+		<div id="otp_code" class="my-4 flex min-w-0 shrink gap-x-2">
 			{#each otpCode, i (i)}
 				<input
 					id="otp_{i}"
 					type="text"
 					inputmode="numeric"
 					maxlength="1"
-					class="bg-mlb-gray mr-4 w-12 rounded-xl p-4 text-center font-bold"
+					class="bg-mlb-gray w-10 rounded-xl p-4 text-center font-bold md:w-12"
 					bind:value={otpCode[i]}
 					oninput={autoFocus}
 				/>
 			{/each}
 		</div>
 
-			<button
-				class="bg-mlb-orange text-mlb-white m-3 rounded-2xl px-7 py-3 text-l font-medium drop-shadow-sm hover:brightness-90"
-				onclick={handleButtonClick}
-				disabled={isLoading}
-			>
-				{isLoading ? "Processing..." : "Unlock"}
-			</button>
-			<p>{otpStatus}</p>
+		<button
+			class="bg-mlb-orange text-mlb-white text-l m-3 rounded-2xl px-7 py-3 font-medium drop-shadow-sm hover:brightness-90"
+			onclick={handleButtonClick}
+			disabled={isLoading}
+		>
+			{isLoading ? 'Processing...' : 'Unlock'}
+		</button>
+		<p>{otpStatus}</p>
 	</div>
 {/snippet}
 

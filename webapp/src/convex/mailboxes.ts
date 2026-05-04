@@ -1,13 +1,19 @@
-import { query } from "./_generated/server.js";
+import { query } from './_generated/server.js';
 // import { v } from "convex/values";
 
 export const getMailboxes = query({
-    args: {},
-    handler: async (ctx) => {
-        // Get most recent messages first
-        const mailboxes = await ctx.db.query("mailboxes").collect();
-        // Reverse the list so that it's in a chronological order.
-        console.log(mailboxes)
-        return mailboxes;
-    },
+	args: {},
+	handler: async (ctx) => {
+		const mailboxes = await ctx.db.query('mailboxes').collect();
+
+		const parcels = await ctx.db.query('parcels').collect();
+
+		const merge = mailboxes.map((mailbox) => ({
+			...mailbox,
+			parcel_info: parcels.find((p) => p._id === mailbox.parcel_id)
+		}));
+
+		console.log(merge);
+		return merge;
+	}
 });
