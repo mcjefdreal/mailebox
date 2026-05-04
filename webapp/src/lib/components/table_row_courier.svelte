@@ -3,22 +3,34 @@
 
 	let {
 		locker_num = '24',
+		parcel_num = '123',
 		recipient_uid = 'DELA CRUZ, Juan A.',
 		delivered_date = 'April 28, 2026',
 		claim_by = 'May 5, 2026',
-		status = 'In Locker'
+		status = 'For Delivery'
 	} = $props();
 
 	let isOverrideActive = $state(false);
+
+	function handleClick(){
+		if (status == 'In Locker' || status == 'Claimed'){
+			return;
+		}
+		else {
+			isOverrideActive = true;
+		}
+	}
 </script>
 
 <button
 	class="bg-mlb-white border-mlb-white hover:border-mlb-orange mb-2 flex h-1/12 w-full shrink-0 flex-row rounded-2xl border-2 hover:shadow-sm"
-	onclick={() => {
-		isOverrideActive = true;
-	}}
+	onclick={handleClick}
 >
-	<div class="w-1/8 content-center text-center font-bold">
+	<div class="w-1/4 content-center text-center font-bold">
+		{parcel_num}
+	</div>
+
+	<div class="w-1/4 content-center text-center">
 		{locker_num}
 	</div>
 
@@ -27,14 +39,6 @@
 	</div>
 
 	<div class="w-1/4 content-center text-center">
-		{delivered_date}
-	</div>
-
-	<div class="w-1/4 content-center text-center">
-		{claim_by}
-	</div>
-
-	<div class="w-1/8 content-center text-center text-sm">
 		{status}
 	</div>
 </button>

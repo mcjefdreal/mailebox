@@ -10,6 +10,8 @@
 	import TableRow from '$lib/components/table_row_courier.svelte';
 
 	let searchValue = $state('');
+
+	let hideDelivered = $state(false);
 </script>
 
 <div
@@ -18,7 +20,7 @@
 	<div class="z-0 flex w-full flex-col overflow-x-auto py-6 pr-2 pl-6 md:pr-12 md:pl-16">
 		<!-- <img src={logo} alt="MaiLeBox logo" class="max-w-40 pt-5" /> -->
 
-		<div class="text-mlb-black mb-2 flex h-1/10 min-w-[700px] flex-row pr-4">
+		<div class="text-mlb-black mb-2 flex h-1/10 min-w-[700px] w-full flex-row pr-4">
 			<div class="place-content-center text-3xl font-bold">Parcels</div>
 
 			<div class="ml-auto flex">
@@ -42,23 +44,26 @@
 			</div>
 		</div>
 
-		<div class="mb-4 flex w-full min-w-[700px] flex-row pr-4">
-			<div class="w-1/8 content-center text-center text-lg font-bold">Parcel Number</div>
+		<div class="flex flex-row items-center">
+			<input id="hideDelivered" type="checkbox" bind:checked={hideDelivered} class="w-4 h-4 accent-mlb-orange" />
+			<label for="hideDelivered" class="pl-2"> Hide Delivered Parcels </label>
+		</div>
+
+		<div class="mb-4 flex justify-center items-center min-w-[700px] flex-row">
+			<div class="w-1/4 content-center text-center text-lg font-bold">Parcel Number</div>
+
+			<div class="w-1/4 content-center text-center text-lg font-bold">Assigned Locker</div>
 
 			<div class="w-1/4 content-center text-center text-lg font-bold">Recipient</div>
 
-			<div class="w-1/4 content-center text-center text-lg font-bold">Delivered By</div>
-
-			<div class="w-1/4 content-center text-center text-lg font-bold">Claim By</div>
-
-			<div class="w-1/8 content-center text-center text-lg font-bold">Status</div>
+			<div class="w-1/4 content-center text-center text-lg font-bold">Status</div>
 		</div>
 
 		<div class="flex h-8/10 w-full min-w-[700px] flex-col overflow-auto pr-4">
 			<TableRow />
 			<TableRow />
-			<TableRow />
-			<TableRow />
+			<TableRow status='Claimed'/>
+			<TableRow status='In Locker'/>
 		</div>
 	</div>
 </div>
