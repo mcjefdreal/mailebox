@@ -16,4 +16,8 @@ export default defineSchema({
     status: v.string(),
     scanned_at: v.number(),
   }).index("by_uin", ["uin"]),
+  userRoles: defineTable({
+    uin: v.string(),
+    role: v.string(),
+  }).index("by_uin", ["uin"]),
 });
