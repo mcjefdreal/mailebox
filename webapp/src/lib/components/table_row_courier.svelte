@@ -5,8 +5,6 @@
 		locker_num = '24',
 		parcel_num = '123',
 		recipient_uid = 'DELA CRUZ, Juan A.',
-		delivered_date = 'April 28, 2026',
-		claim_by = 'May 5, 2026',
 		status = 'For Delivery'
 	} = $props();
 

@@ -9,6 +9,10 @@
 	import Modal from '$lib/components/modal.svelte';
 	import TableRow from '$lib/components/table_row_courier.svelte';
 
+	import { useQuery } from 'convex-svelte';
+	import { api } from '$convex/_generated/api.js';
+	const parcels = useQuery(api.courier.getParcelsForCourier, {courier_id: "smthng smthng id"});
+
 	let searchValue = $state('');
 
 	let hideDelivered = $state(false);
@@ -60,10 +64,36 @@
 		</div>
 
 		<div class="flex h-8/10 w-full min-w-[700px] flex-col overflow-auto pr-4">
-			<TableRow />
+			<!-- <TableRow />
 			<TableRow />
 			<TableRow status='Claimed'/>
-			<TableRow status='In Locker'/>
+			<TableRow status='In Locker'/> -->
+
+			{#if parcels.isLoading}
+				<p>Loading...</p>
+			{:else if parcels.error}
+				<p>failed to load: {parcels.error.toString()}</p>
+			{:else}
+				{#each parcels.data as parcel (parcel.tracking_id)}
+					{#if hideDelivered}
+						{#if parcel.status == "For Delivery"}
+							<TableRow
+								locker_num={parcel.mailbox_info.locker_number.toString()}
+								parcel_num={parcel.tracking_id.toString()}
+								recipient_uid={parcel.recipient_uid}
+								status={parcel.status}
+							/>
+						{/if}
+					{:else}
+						<TableRow
+							locker_num={parcel.mailbox_info.locker_number.toString()}
+							parcel_num={parcel.tracking_id.toString()}
+							recipient_uid={parcel.recipient_uid}
+							status={parcel.status}
+						/>
+					{/if}
+				{/each}
+			{/if}
 		</div>
 	</div>
 </div>
