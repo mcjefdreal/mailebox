@@ -1,5 +1,5 @@
-import { httpRouter } from "convex/server";
-import { authComponent, createAuth } from "./auth.ts";
+import { httpRouter } from 'convex/server';
+import { authComponent, createAuth } from './auth.ts';
 
 const http = httpRouter();
 
