@@ -7,11 +7,11 @@
 
 	import Modal from '$lib/components/modal.svelte';
 	import Navbar from '$lib/components/navbar.svelte';
-    import TableRow from '$lib/components/table_row_mailbox.svelte';
+	import TableRow from '$lib/components/table_row_mailbox.svelte';
 
 	import { useQuery } from 'convex-svelte';
 	import { api } from '$convex/_generated/api.js';
-  	const mailboxes = useQuery(api.mailboxes.getMailboxes, {});
+	const mailboxes = useQuery(api.mailboxes.getMailboxes, {});
 
 	let searchValue = $state('');
 
@@ -54,12 +54,10 @@
 <div class="bg-mlb-gray/30 relative flex h-screen w-screen flex-row">
 	<Navbar bind:active={isNavbarActive} />
 
-	<div class="z-0 flex flex-col pl-16 pr-12 py-12 {isNavbarActive ? 'w-4/5' : 'w-full'}">
+	<div class="z-0 flex flex-col py-12 pr-12 pl-16 {isNavbarActive ? 'w-4/5' : 'w-full'}">
 		<!-- Title & Utilities -->
-		<div class="text-mlb-black flex flex-row h-1/10 mb-2 pr-4">
-			<div class="w-3/5 text-3xl font-bold place-content-center">
-				Mailboxes
-			</div>
+		<div class="text-mlb-black mb-2 flex h-1/10 flex-row pr-4">
+			<div class="w-3/5 place-content-center text-3xl font-bold">Mailboxes</div>
 
 			<div class="flex w-2/5">
 				<button class="flex w-1/10 place-content-center">
@@ -110,18 +108,18 @@
 		<!-- Content (Actual Logs) -->
 		<div class="flex h-8/10 w-full flex-col overflow-auto pr-4">
 			{#if mailboxes.isLoading}
-			<p>Loading...</p>
+				<p>Loading...</p>
 			{:else if mailboxes.error}
-			<p>failed to load: {mailboxes.error.toString()}</p>
+				<p>failed to load: {mailboxes.error.toString()}</p>
 			{:else}
-				{#each mailboxes.data as mailbox (mailbox.locker_number)} 
-				<TableRow 
-					locker_num={mailbox.locker_number.toString()} 
-					recipient_uid={mailbox.recipient_uid} 
-					delivered_date={mailbox.parcel_info ? mailbox.parcel_info.delivered_by : "N/A"} 
-					claim_by={mailbox.parcel_info ? mailbox.parcel_info.claim_by : "N/A"} 
-					status={mailbox.status}
-				/>
+				{#each mailboxes.data as mailbox (mailbox.locker_number)}
+					<TableRow
+						locker_num={mailbox.locker_number.toString()}
+						recipient_uid={mailbox.recipient_uid}
+						delivered_date={mailbox.parcel_info ? mailbox.parcel_info.delivered_by : 'N/A'}
+						claim_by={mailbox.parcel_info ? mailbox.parcel_info.claim_by : 'N/A'}
+						status={mailbox.status}
+					/>
 				{/each}
 			{/if}
 		</div>

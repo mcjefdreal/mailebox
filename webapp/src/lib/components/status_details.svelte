@@ -18,7 +18,7 @@
 >
 	<div class="grid grid-cols-4 py-3">
 		<div
-			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square items-center justify-center justify-self-center rounded-full border-3 border-solid md:w-1/2 {status >=
 			1
 				? 'opacity-100'
 				: 'opacity-50'}"
@@ -40,7 +40,7 @@
 		<div class="col-span-3"></div>
 
 		<div
-			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square items-center justify-center justify-self-center rounded-full border-3 border-solid md:w-1/2 {status >=
 			2
 				? 'opacity-100'
 				: 'opacity-50'}"
@@ -62,7 +62,7 @@
 		<div class="col-span-3"></div>
 
 		<div
-			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square items-center justify-center justify-self-center rounded-full border-3 border-solid md:w-1/2 {status >=
 			3
 				? 'opacity-100'
 				: 'opacity-50'}"
@@ -84,7 +84,7 @@
 		<div class="col-span-3"></div>
 
 		<div
-			class="border-mlb-orange flex aspect-square md:w-1/2 items-center justify-center justify-self-center rounded-full border-3 border-solid {status >=
+			class="border-mlb-orange flex aspect-square items-center justify-center justify-self-center rounded-full border-3 border-solid md:w-1/2 {status >=
 			4
 				? 'opacity-100'
 				: 'opacity-50'}"
@@ -99,5 +99,5 @@
 		</div>
 	</div>
 
-	<button onclick={onClose} class="hover:text-mlb-orange md:pt-5 underline"> Close </button>
+	<button onclick={onClose} class="hover:text-mlb-orange underline md:pt-5"> Close </button>
 </div>

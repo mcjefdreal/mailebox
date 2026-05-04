@@ -15,10 +15,12 @@
 	const isLoading = $derived(auth.isLoading);
 	const isAuthenticated = $derived(auth.isAuthenticated);
 
-	const currentUserResponse = useQuery(api.auth.getCurrentUser, () => (isAuthenticated ? {} : 'skip'));
+	const currentUserResponse = useQuery(api.auth.getCurrentUser, () =>
+		isAuthenticated ? {} : 'skip'
+	);
 	let user = $derived(currentUserResponse.data);
 
-	let name = $state('admin')
+	let name = $state('admin');
 	let email = $state('');
 	let password = $state('');
 
@@ -26,10 +28,10 @@
 		event.preventDefault();
 		try {
 			await authClient.signIn.email(
-				{ email, password, callbackURL:'/admin' },
+				{ email, password, callbackURL: '/admin' },
 				{
 					onError: (ctx) => {
-						alert("Authentication error:" + ctx.error.message)
+						alert('Authentication error:' + ctx.error.message);
 					}
 				}
 			);
@@ -43,7 +45,7 @@
 	class="from-mlb-blue/20 to-mlb-orange/20 flex h-screen flex-col items-center justify-center bg-linear-to-t"
 >
 	<div
-		class="bg-mlb-white m-6 flex w-80 md:w-1/3 flex-col items-center justify-center rounded-xl p-3 md:p-5 drop-shadow-md"
+		class="bg-mlb-white m-6 flex w-80 flex-col items-center justify-center rounded-xl p-3 drop-shadow-md md:w-1/3 md:p-5"
 	>
 		<img src={logo} alt="MaiLeBox logo" class="max-w-60 pt-5" />
 		<p class="pt-8 text-lg font-extrabold">Welcome!</p>
@@ -72,7 +74,9 @@
 				class="bg-mlb-orange text-mlb-white m-3 rounded-2xl px-4 py-1.5 text-sm font-medium drop-shadow-sm hover:brightness-90"
 			/>
 
-			<button class="bg-mlb-white border border-mlb-orange text-mlb-orange mx-3 my-1 rounded-2xl px-4 py-1.5 text-sm font-medium drop-shadow-sm hover:brightness-95">
+			<button
+				class="bg-mlb-white border-mlb-orange text-mlb-orange mx-3 my-1 rounded-2xl border px-4 py-1.5 text-sm font-medium drop-shadow-sm hover:brightness-95"
+			>
 				Sign in with Google
 			</button>
 		</form>

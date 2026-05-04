@@ -1,11 +1,10 @@
-import { query } from "./_generated/server.js";
-import { v } from "convex/values";
+import { query } from './_generated/server.js';
 
 export const getParcels = query({
-    args: {},
-    handler: async (ctx) => {
-        const parcels = await ctx.db.query("parcels").collect();
-        console.log(parcels)
-        return parcels;
-    },
+	args: {},
+	handler: async (ctx) => {
+		const parcels = await ctx.db.query('parcels').collect();
+		console.log(parcels);
+		return parcels;
+	}
 });

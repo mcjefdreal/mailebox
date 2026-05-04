@@ -7,11 +7,11 @@
 
 	import Modal from '$lib/components/modal.svelte';
 	import Navbar from '$lib/components/navbar.svelte';
-    import TableRow from '$lib/components/table_row_log.svelte';
+	import TableRow from '$lib/components/table_row_log.svelte';
 
 	import { useQuery } from 'convex-svelte';
 	import { api } from '$convex/_generated/api.js';
-  	const parcels = useQuery(api.parcels.getParcels, {});
+	const parcels = useQuery(api.parcels.getParcels, {});
 
 	let searchValue = $state('');
 
@@ -54,12 +54,10 @@
 <div class="bg-mlb-gray/30 relative flex h-screen w-screen flex-row">
 	<Navbar bind:active={isNavbarActive} />
 
-	<div class="z-0 flex flex-col pl-16 pr-12 py-12 {isNavbarActive ? 'w-4/5' : 'w-full'}">
+	<div class="z-0 flex flex-col py-12 pr-12 pl-16 {isNavbarActive ? 'w-4/5' : 'w-full'}">
 		<!-- Title & Utilities -->
-		<div class="text-mlb-black flex flex-row h-1/10 mb-2 pr-4">
-			<div class="w-3/5 text-3xl font-bold place-content-center">
-				Parcel Logs
-			</div>
+		<div class="text-mlb-black mb-2 flex h-1/10 flex-row pr-4">
+			<div class="w-3/5 place-content-center text-3xl font-bold">Parcel Logs</div>
 
 			<div class="flex w-2/5">
 				<button class="flex w-1/10 place-content-center">
@@ -102,27 +100,27 @@
 
 			<div class="w-1/4 content-center text-center text-lg font-bold">Most Recent Activity</div>
 
-            <div class="w-1/4 content-center text-center text-lg font-bold">Date of Activity</div>
+			<div class="w-1/4 content-center text-center text-lg font-bold">Date of Activity</div>
 		</div>
 
 		<!-- Content (Actual Logs) -->
 		<div class="flex h-8/10 w-full flex-col overflow-auto pr-4">
 			{#if parcels.isLoading}
-			<p>Loading...</p>
+				<p>Loading...</p>
 			{:else if parcels.error}
-			<p>failed to load: {parcels.error.toString()}</p>
+				<p>failed to load: {parcels.error.toString()}</p>
 			{:else}
-				{#each parcels.data as parcel (parcel.tracking_id)} 
-				<TableRow 
-					tracking_id={parcel.tracking_id}
-                    recipient_uid={parcel.recipient_uid}
-                    delivered_by={parcel.delivered_by}
-                    in_locker_by={parcel.in_locker_by}
-                    claim_by={parcel.claim_by}
-                    claim_date={parcel.claim_date}
-                    storage_date={parcel.storage_date}
-                    status={parcel.status}
-				/>
+				{#each parcels.data as parcel (parcel.tracking_id)}
+					<TableRow
+						tracking_id={parcel.tracking_id}
+						recipient_uid={parcel.recipient_uid}
+						delivered_by={parcel.delivered_by}
+						in_locker_by={parcel.in_locker_by}
+						claim_by={parcel.claim_by}
+						claim_date={parcel.claim_date}
+						storage_date={parcel.storage_date}
+						status={parcel.status}
+					/>
 				{/each}
 			{/if}
 		</div>

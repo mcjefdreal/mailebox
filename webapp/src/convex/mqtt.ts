@@ -25,7 +25,7 @@ export const publishCommand = action({
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Basic ${toBase64(`${emqxAppId}:${emqxAppSecret}`)}`
+				Authorization: `Basic ${toBase64(`${emqxAppId}:${emqxAppSecret}`)}`
 			},
 			body: JSON.stringify({
 				topic: 'esp32/commands',
